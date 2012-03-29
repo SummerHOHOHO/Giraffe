@@ -1,6 +1,9 @@
 Project name:Giraffe
+
 Version:  0.1
+
 build-direction:
+--------------------------
   windows-building:
     1.enter the win-project directory, open GIRAFFE.sln by Visual Studio
     2.in Giraffe Project there are four sub-projects; rebuild them 
