@@ -14,7 +14,7 @@ Highlight Features:
     1. High availability and high dependancy
     2. Light weight coordinate service issue
 
-Build Direction:
+Building Direction:
 ----------------------
     windows-building:
       1.enter the win-project directory, open GIRAFFE.sln by Visual Studio
