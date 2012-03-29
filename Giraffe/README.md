@@ -1,10 +1,9 @@
 
+project name: Giraffe
 
-project name Giraffe
---------------------------
 
-version  0.1
----------------------------
+version:  0.1
+
 
 build-direction:
 --------------------------
