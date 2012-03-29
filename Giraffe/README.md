@@ -1,4 +1,4 @@
-project name: Giraffe
+Giraffe-a coordinate service on cloud platform
 ---------------------
 version:  0.1
 
@@ -9,12 +9,12 @@ Description:
     model, using multi-nodes aimed at hight performance service. Paxos protocol is used to guarantee 
     consistency among cluster. Additionally, a client interface is implemented for external user!
     
-highlight features:
+Highlight Features:
 ----------------------
     1. High availability and high dependancy
     2. Light weight coordinate service issue
 
-build-direction:
+Build Direction:
 ----------------------
     windows-building:
       1.enter the win-project directory, open GIRAFFE.sln by Visual Studio
