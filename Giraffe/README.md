@@ -12,7 +12,7 @@ Description:
 Highlight Features:
 ----------------------
     1. High availability and high dependancy
-    2. Light weight coordinate service issue
+    2. Light weight coordinate service application
 
 Building Direction:
 ----------------------
