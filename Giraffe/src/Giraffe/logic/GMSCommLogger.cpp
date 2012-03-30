@@ -49,6 +49,11 @@ void GMSCommLogger::setCommConfig()
 	GServerConfig client_inireader("Giraffe_conf/Giraffe_conf.ini");
 
 	settings.loadEnv(client_inireader);
+	
+	GServerConfig client_inireader("Giraffe_conf/MemberShip_conf.ini");
+
+	settings.loadEnv(client_inireader);
+	
 	log4cplus::Logger _logger = log4cplus::Logger::getRoot();
 
 	S32  my_log_level = settings.getConfig("log-level").m_value.intvalue;

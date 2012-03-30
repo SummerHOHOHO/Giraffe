@@ -1,0 +1,3 @@
+In current directory there are two folders -- Giraffe/ and dependency-library/. 
+Giraffe folder includes the whole project and documents of Giraffe, from which you can further understand what and how Giraffe can do. 
+Dependency-library folder includes all the other libraries on which Giraffe depends. There are mainly three libraries: BerkelyDB, Boost and Log4cplus, and the threadpool is an additional packet for Boost. These libraries need to be rebuilt on your computer and added to lib/ of Giraffe project.
