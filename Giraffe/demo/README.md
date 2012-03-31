@@ -3,12 +3,12 @@ Introduction
 This demo is to show how Giraffe work which departed into two version for different platforms!
 It is simple only with a structure of three servers and three clients, however more servers or
 clients can be generated manually if necessary. Before running server or client, configurations need to be set firstly.
-Configure files are in <tt>Giraffe_conf<tt> folder, they are  <tt>client_conf.ini<tt> for client and <tt>Giraffe_conf.ini<tt> <tt>MemberShip_conf.ini<tt>
+Configure files are in <tt>Giraffe_conf<\tt> folder, they are  <tt>client_conf.ini<\tt> for client and <tt>Giraffe_conf.ini<\tt> <tt>MemberShip_conf.ini<\tt>
 for server. The followings show detail settings of each configure file!
 
 Server Configurations:
 ---------------
-##Giraffe_conf.ini##:
+##Giraffe_conf.ini:
 	local-tcp-server-port/local-udp-server-port: server application service tcp/udp
 	giraffe-lease-interval: timeout interval for client (microsecond)
 	giraffe-mode: CLUSTER/SINGLE, 'SINGLE' means that only one server provides service while 'CLUSTER' means several servers provide service
@@ -28,7 +28,7 @@ Server Configurations:
 		paxos-tcp-port = 30032
 		paxos-udp-port = 30033
 
-##MemberShip_conf.ini##:
+##MemberShip_conf.ini:
 this file is to show the cluster status, it is a list of ip/port, the following 'id' ranges from '1' to giraffe-workers
 
 	replica.id-ip: the ip whose giraffe-id is 'id'
@@ -42,7 +42,7 @@ this file is to show the cluster status, it is a list of ip/port, the following 
 		replica.1-id = 211.69.198.201
 		replica.1-port = 30036
 
-##Client configurations##:
+##Client configurations:
 	local-tcp-server-port/local-udp-server-port:client tcp/udp
 	giraffe-server-ip: the server ip that client wants to connect at first time
 	giraffe-server-tcp-port/giraffe-server-udp-port: the server tcp/udp port
