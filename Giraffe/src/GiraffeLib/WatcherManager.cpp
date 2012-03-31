@@ -100,7 +100,7 @@ void WatcherManager::handleWatcherEvent()
 		cout << "get event" << endl;
 		if(w == NULL)
 		{
-			cout << "w == NULL " << endl;
+			//cout << "w == NULL " << endl;
 			continue;
 		}
 		else
