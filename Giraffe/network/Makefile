@@ -1,13 +1,4 @@
 ###############################################################################
-#
-# A smart Makefile template for GNU/LINUX programming
-#
-# Author: PRC (ijkxyz AT msn DOT com)
-# Date:   2011/06/17
-#
-# Usage:
-#   $ make           Compile and link (or archive)
-#   $ make clean     Clean the objectives and target.
 ###############################################################################
 
 CROSS_COMPILE =
