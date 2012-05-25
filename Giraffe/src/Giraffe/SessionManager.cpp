@@ -5,7 +5,7 @@
 
 class GMSComm;
 
-SessionManager::SessionManager()
+SessionManager::SessionManager(GPaxosProtocol *p)
 {
 	//m_pComm = new GMSComm(this);
 	PSettings & settings = PSettings::getInstance();	
@@ -18,6 +18,9 @@ SessionManager::SessionManager()
 	m_lockGenerater = 0;
 	m_expired_session_counter = 0;
 	m_pComm = new GMSComm(this);
+
+	assert(m_pPaxos != NULL);
+	m_pPaxos = p;
 
 	m_db_run_time = 0;
 	func_run_time = 0;

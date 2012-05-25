@@ -1,5 +1,6 @@
 #include "Base/GHeader.h"
 #include "GServerConfig.h"
+#include "GMembershipConfig.h"
 #include "GMSCommLogger.h"
 
 using namespace log4cplus;
@@ -46,13 +47,15 @@ void GMSCommLogger::setCommConfig()
 
 	settings.loadEnv( pub_inireader );
 	
-	GServerConfig client_inireader("Giraffe_conf/Giraffe_conf.ini");
+	GServerConfig giraffe_inireader("Giraffe_conf/Giraffe_conf.ini");
 
-	settings.loadEnv(client_inireader);
+	settings.loadEnv(giraffe_inireader);
 	
-	GServerConfig client_inireader("Giraffe_conf/MemberShip_conf.ini");
+	int number = settings.getConfig("giraffe-workers").m_value.intvalue ;
 
-	settings.loadEnv(client_inireader);
+	GMembershipConfig cluster_inireader("Giraffe_conf/MemberShip_conf.ini", number);
+
+	settings.loadEnv(cluster_inireader);
 	
 	log4cplus::Logger _logger = log4cplus::Logger::getRoot();
 

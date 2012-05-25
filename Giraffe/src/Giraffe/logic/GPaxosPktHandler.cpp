@@ -37,8 +37,6 @@ GPaxosPktHandler::GPaxosPktHandler(Network::PTransmitter	*transmiter, GPaxosProt
 	m_pPaxos = pPaxos;
 }
 
-
-
 void GPaxosPktHandler::handleInternalQuitApplication( const PacketINFO * packetInfo)
 {
 	this->m_pAppterminate->applicationTerminate();

@@ -20,31 +20,21 @@ GPaxosState::GPaxosState(GPaxosComm *comm)
 	//get giraffe servers ,the following codes take 5 server for test,
 	//it should be modified for dynamic membership in the future
 	PInetAddr replica_addr;
-	tempIp = PUtils::addr2Long( settings.getConfig("replica.1-ip").m_value.strvalue );
-	tempPort = settings.getConfig("replica.1-port").m_value.intvalue;
-	replica_addr.set(tempIp,tempPort);
-	m_oReplicaTable.push_back(replica_addr);
-	
-	tempIp = PUtils::addr2Long( settings.getConfig("replica.2-ip").m_value.strvalue );
-	tempPort = settings.getConfig("replica.2-port").m_value.intvalue;
-	replica_addr.set(tempIp,tempPort);
-	m_oReplicaTable.push_back(replica_addr);
 
-	tempIp = PUtils::addr2Long( settings.getConfig("replica.3-ip").m_value.strvalue );
-	tempPort = settings.getConfig("replica.3-port").m_value.intvalue;
-	replica_addr.set(tempIp,tempPort);
-	m_oReplicaTable.push_back(replica_addr);
+	int number = settings.getConfig("giraffe-workers").m_value.intvalue ;
+	string replica_ip_str = "replica.x-ip";
+	string replica_port_str = "replica.x-port";
 
-	tempIp = PUtils::addr2Long( settings.getConfig("replica.4-ip").m_value.strvalue );
-	tempPort = settings.getConfig("replica.4-port").m_value.intvalue;
-	replica_addr.set(tempIp,tempPort);
-	m_oReplicaTable.push_back(replica_addr);
-
-	tempIp = PUtils::addr2Long( settings.getConfig("replica.5-ip").m_value.strvalue );
-	tempPort = settings.getConfig("replica.5-port").m_value.intvalue;
-	replica_addr.set(tempIp,tempPort);
-	m_oReplicaTable.push_back(replica_addr);
-	
+	for (int i = 1; i <= number; i++)
+	{
+		char num = '0' + i;
+		replica_ip_str[8] = num;
+		replica_port_str[8] = num;
+		tempIp = PUtils::addr2Long( settings.getConfig(replica_ip_str).m_value.strvalue );
+		tempPort = settings.getConfig(replica_port_str).m_value.intvalue;
+		replica_addr.set(tempIp,tempPort);
+		m_oReplicaTable.push_back(replica_addr);
+	}
 };
 
 GPaxosState::~GPaxosState(void)

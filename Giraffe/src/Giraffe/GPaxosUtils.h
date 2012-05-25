@@ -42,7 +42,6 @@ namespace PAXOS_EVENT
 	};
 };
 
-
 class TXID
 {
 public :

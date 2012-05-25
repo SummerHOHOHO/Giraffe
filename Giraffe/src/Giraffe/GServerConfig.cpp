@@ -15,26 +15,15 @@ GServerConfig::GServerConfig(const std::string & config_file):PIniReader(config_
 	this->addWantedProperty("giraffe-workers",PConfigValue::INT_TYPE);
 	this->addWantedProperty("giraffe-paxos-sync-interval",PConfigValue::INT_TYPE);
 	this->addWantedProperty("giraffe-leader-lease-interval",PConfigValue::INT_TYPE);
-	
-	
-	this->addWantedProperty("replica.1-ip",PConfigValue::STRING_TYPE);
-	this->addWantedProperty("replica.1-port",PConfigValue::INT_TYPE);
-
-	this->addWantedProperty("replica.2-ip",PConfigValue::STRING_TYPE);
-	this->addWantedProperty("replica.2-port",PConfigValue::INT_TYPE);
-
-	this->addWantedProperty("replica.3-ip",PConfigValue::STRING_TYPE);
-	this->addWantedProperty("replica.3-port",PConfigValue::INT_TYPE);
-
-	this->addWantedProperty("replica.4-ip",PConfigValue::STRING_TYPE);
-	this->addWantedProperty("replica.4-port",PConfigValue::INT_TYPE);
-
-	this->addWantedProperty("replica.5-ip",PConfigValue::STRING_TYPE);
-	this->addWantedProperty("replica.5-port",PConfigValue::INT_TYPE);
 	this->addWantedProperty("giraffe-id",PConfigValue::INT_TYPE);
 }
 
 GServerConfig::~GServerConfig(void)
+{
+
+}
+
+void GServerConfig::getClusterMembership(int size)
 {
 
 }

@@ -96,3 +96,8 @@ void GPaxosProtocol::setAppTerminate()
 {
 	m_paxosComm->setAppTerminate();
 }
+
+void GPaxosProtocol::proposeApplicationEvent(GApplicationEvent &ae)
+{
+	//handle events from coordination service layer which is meant to update file system
+}

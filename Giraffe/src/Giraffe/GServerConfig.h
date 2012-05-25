@@ -8,6 +8,8 @@ public:
 
 	GServerConfig(const std::string & config_file);
 
+	void getClusterMembership(int size);
+
 	virtual ~GServerConfig(void);
 
 };

@@ -58,7 +58,7 @@ void GPaxosFollower::pingToLeader()
 	if (!m_bStop)
 	{
 		S64 time = PUtils::localMilliSeconds();
-		if (time - m_sLastPingFromLeader <= m_sLeaderLeasePeriod)
+		if (time - m_sLastPingFromLeader <= 1.5*m_sLeaderLeasePeriod)
 		{
 			cout << "time:" << time - m_sLastPingFromLeader << "period" << m_sLeaderLeasePeriod << endl; 
 			cout << "ping to leader, epoch:" << m_pPaxosState->m_iLeaderEpoch<< "leader id:" <<m_pPaxosState->m_iLeaderId << endl;

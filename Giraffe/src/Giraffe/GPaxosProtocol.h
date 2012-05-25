@@ -8,6 +8,7 @@
 #include "GPaxosLeader.h"
 #include "GPaxosFollower.h"
 #include "GPaxosState.h"
+#include "GApplicationEvent.h"
 
 class GPaxosComm;
 class GPaxosLeaderElection;
@@ -24,7 +25,7 @@ public:
 	void checkState();
 	void dispatchPaxosEvent(PaxosEvent pe);
 	void setAppTerminate();
-
+	void proposeApplicationEvent(GApplicationEvent &ae);
 public:
 	GPaxosComm * m_paxosComm;
 	Paxos * m_paxos;

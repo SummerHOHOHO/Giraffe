@@ -7,11 +7,12 @@
 #include "BerkelyFileSystem.h"
 #include "logic/GMSComm.h"
 #include "logic/GPaxosComm.h"
+#include "GPaxosProtocol.h"
 
 class SessionManager
 {
 	public:
-		SessionManager();
+		SessionManager(GPaxosProtocol *p);
 		~SessionManager();
 
 		void setAppTerminate();
@@ -34,6 +35,10 @@ class SessionManager
 		void timely_renew();
 		void check_state();
 		void get_leader_location(U32 id,Network::PInetAddr addrFom);
+		void set_paxos_handle(GPaxosProtocol *p)
+		{
+			m_pPaxos = p;
+		}
 
 		BerkelyDBFileSystem* getFileSystem()
 		{
@@ -200,6 +205,7 @@ class SessionManager
 		U32 m_lease_interval;
 		BerkelyDBFileSystem *m_fs;
 		GMSComm * m_pComm;
+		GPaxosProtocol * m_pPaxos;
 		U32 m_lockGenerater;
 		S64 m_db_run_time;
 		S64 func_run_time;
