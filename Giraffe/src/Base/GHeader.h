@@ -54,6 +54,13 @@ enum{
 
 
 ///////////////// Source Types //////////////////////////////
+
+typedef std::streamoff      OFF_P;
+#define CREATE              0
+#define WRITE               1
+#define DEL                 2
+#define FILESIZE            1000
+
 #define UDP_LISTEN_INTERVAL_MILLISECONDS			1
 #define TCP_SELECT_TIME_OUT_MICROSECONDS			10000
 #define TCP_SELECT_INTERVAL_MILLISECONDS			1
