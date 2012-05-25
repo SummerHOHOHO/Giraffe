@@ -13,7 +13,7 @@ typedef signed int			S32;
 typedef long long   		U64;
 typedef float				F32;
 typedef double				F64;
-
+typedef std::streamoff      OFF_P;
 typedef bool				B8;
 //typedef std::string			String;
 
@@ -22,6 +22,7 @@ typedef bool				B8;
 #define WRITE               1
 #define DEL                 2
 #define FILESIZE            1000
+
 
 
 #endif //LOGGER_HEADER_H__

@@ -1,5 +1,4 @@
-#ifndef __LOGGERHANDLE_H__
-#define __LOGGERHANDLE_H__
+#pragma once//¸Ä³É#ifndef
 #include "stdafx.h"
 #include "Header.h"
 #include "PGRFPaxosEventPkt.h"
@@ -35,12 +34,14 @@ public:
 	virtual void recover();
 	virtual void readfromfile();
 	virtual void terminate();
+	virtual int findItem(U64 tixd);
 public:
 	virtual void setEventCommit(U64 txid);
     void handleWriteLog();
 	void fstr_creat();
 	void file_close();
-	
+	void readfilewithcheck(OFF_P *checkpoint);
+
 private:
 	LogItem * creatLogItem(const PGRFPaxoesEventPkt &);
 	LogItem * creatLogItem(U64 tTxid,U32 event_tType,string kKey,string vValue, B8 cCommitted_flag);
@@ -58,8 +59,8 @@ public:
 	LoggerState *loggerstate;
 	U64 txid_beg;
 	U64 txid_eof;
+	OFF_P position;
+	OFF_P checkpoint[FILESIZE];
 private:
 	bool isRunning;
 };
-
-#endif //__LOGGERHANDLE_H__

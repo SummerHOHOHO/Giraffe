@@ -1,5 +1,4 @@
-#ifndef __LOGGERITEMQUEUE_H__
-#define __LOGGERITEMQUEUE_H__
+#pragma once
 # include "Header.h"
 # include "LogItem.h"
 typedef struct ItemNode{
@@ -10,7 +9,7 @@ typedef struct ItemNode{
 
 class LoggerItemQueue{
 public:
-	LoggerItemQueue(U32 init=375);
+	LoggerItemQueue(U32 init=355);
 	bool LIQEmpty() const; //判断队列是否为空
 	void LIQTraverse() const;//遍历队列
 
@@ -30,5 +29,3 @@ public:
     ItemNode *base; //存储空间基址
 
 };
-
-#endif //__LOGGERITEMQUEUE_H__

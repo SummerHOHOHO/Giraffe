@@ -37,7 +37,9 @@ void Loggerhandle::init()
 	 txid_eof = 0;
 	 m_logthread_func = new LogThread(this,0);
 	 m_thread = new boost::thread(*m_logthread_func);
-
+	 for(int i=0;i<FILESIZE;i++)
+		 checkpoint[i]=0;
+	 
 }
 void Loggerhandle::saveItem(const PGRFPaxoesEventPkt & pgp)
 {
@@ -129,8 +131,8 @@ void Loggerhandle::fstr_creat( )
 	{
 		return;// if the circle is empty but the queue is not and it has not commit
 	}
-	filename = temp +".log";
-	file.open(filename,ios_base::out);//以读写方式打开文件
+	filename = temp +".dat";
+	file.open(filename,ios::binary|ios_base::out);//以读写方式打开文件
 	if(file.fail())
 	{
 		cout << "文件打开失败"<<endl;
@@ -150,8 +152,8 @@ void Loggerhandle::writetofile(U32 Length)
 	   {
 		this->fstr_creat();
 	   }
-   U32 end = myCircle->front + Length;
-   U32 temp;//method two
+    U32 end = myCircle->front + Length;
+    
 	 for(U32 i=myCircle->front;i< end;i++)
 	 {
 		 //如果i的大小超过了环的大小，则重新从0开始，且end也减去size
@@ -160,73 +162,12 @@ void Loggerhandle::writetofile(U32 Length)
 				i %= myCircle->size;
 				end = end -myCircle->size;
 		  }
-		 //拆分环中的key和value项成更小的固定长度的logpart包，并将其读入文件
-		 if(myCircle->base[i]->key.size() > 512 || myCircle->base[i]->value.size() > 1024)
-		 {
-			 int i_p = myCircle->base[i]->key.size()/512 +1;
-			 int j_p = myCircle->base[i]->value.size()/1024 +1;
-			 if(j_p > i_p)
-				 int temp = j_p;
-			 else
-				 temp = i_p;
-			 LogPart *lop = new LogPart[temp];
-			 lop[0].flag = 0; //start of the parekt
-			 lop[0].txid = myCircle->base[i]->txid;
-			 lop[0].event_type = myCircle->base[i]->event_type;
-			 lop[0].committed_flag = true;
-			 myCircle->base[i]->key.copy(lop[0].key,512,0);
-			 lop[0].key[512] = '\0';//添加结束符
-			 myCircle->base[i]->value.copy(lop[0].value,1024,0);
-			 lop[0].value[1024] = '\0';
-			 if(temp == 2)
-			{ 
-				 lop[1].flag = 2;//end of the parket
-			     lop[1].txid = myCircle->base[i]->txid;
-				 lop[1].event_type = myCircle->base[i]->event_type;
-				 lop[1].committed_flag = true;
-				 myCircle->base[i]->key.copy(lop[0].key,myCircle->base[i]->key.size()-512,512);
-				 lop[1].key[myCircle->base[i]->key.size()-512] = '\0';
-			     myCircle->base[i]->value.copy(lop[0].value,myCircle->base[i]->value.size()-1024,1024);
-				 lop[1].value[myCircle->base[i]->value.size()-1024] = '0';
-			 }
-			 else
-			 {
-				 for(U32 count = 2; count <temp; count++)
-					{
-						lop[count].flag = 1;
-						lop[count].txid = myCircle->base[i]->txid;
-				        lop[count].event_type = myCircle->base[i]->event_type;
-				        lop[count].committed_flag = true;
-				        myCircle->base[i]->key.copy(lop[count].key,512,512*count);
-						lop[count].key[512] = '\0';
-			            myCircle->base[i]->value.copy(lop[count].value,1024,1024*count);
-						lop[count].value[1024] = '\0';
-				 }
-			 }
-			 for(U32 cf = 0; cf<temp;cf++)//将所有的logpart，即myCircle中的一项读入文件
-			 {
-				 file.write(reinterpret_cast<char *>(lop),sizeof(LogPart));//一次读入一个logpart
-				 delete lop;
-				 if(cf != temp-1)
-				 lop++;
-				 else;
-			 }
-		 }
-		 else
-		 {
-			 LogPart *lop = new LogPart;
-			 lop->flag = 0; //start of the parekt
-			 lop->txid = myCircle->base[i]->txid;
-			 lop->event_type = myCircle->base[i]->event_type;
-			 lop->committed_flag = true;
-			 myCircle->base[i]->key.copy(lop->key,myCircle->base[i]->key.size(),0);
-			 lop->key[myCircle->base[i]->key.size()] = '\0';//添加结束符
-			 myCircle->base[i]->value.copy(lop->value,myCircle->base[i]->value.size(),0);
-			 lop->value[myCircle->base[i]->value.size()] = '\0';
-			 //将commit环中的数据读入文件中
-			 file.write(reinterpret_cast<char *>(lop),sizeof(LogPart));
-				 delete lop;
-		 }
+		//将logitem，即myCircle中的一项读入文件
+		  position = 0;
+		  position = file.tellp();
+		  checkpoint[countlogitem] = position;
+	      file.write(reinterpret_cast<char *>(myCircle->base[i]),sizeof(LogItem));
+	      file.write(reinterpret_cast<char *>(&position),sizeof(OFF_P));	 	 
 		 //读入之后将环所在项指向的logitem内存释放掉，并计数
 		 {
 					cout << "delete the struct "<<myCircle->base[i]->txid<<endl; 					
@@ -260,79 +201,145 @@ void Loggerhandle::readfromfile()
 {
 	string logfile = loggerstate->get_last_file();
 	fstream logout;
-	off_t position = (off_t)sizeof(LogPart);
-	logout.open(logfile);
+	OFF_P offset = -8;
+	logout.open(logfile,ios::binary|ios::in);
 	while(!logout)
 	{
 		cout<<"元文件打开失败"<<endl;
 		system("PAUSE");
-		logout.open(logfile);//以读写方式打开文件
+		logout.open(logfile,ios::binary|ios::in);//以读写方式打开文件
 	}
-	logout.seekg(-position,ios_base::end);
-	LogPart *lp = new LogPart;
+	logout.seekg(offset,ios_base::end);
 	LogItem *li = new LogItem[outCircle->size];
 	for(U32 i=0; i<outCircle->size;i++)
 	{
-       int temp = (int)i+1;
-	   if(i !=0 && ios_base::cur > ios_base::beg)
+	   if(ios_base::cur > ios_base::beg)
 	   {
 		   //移动文件指针针向相应位置
-		   off_t mov = temp%100;
-		   logout.seekg(-position*mov,ios_base::end);
-		   if(temp>100)
-			{
-				int count = temp/100;
-		        for(int i=0;i<count;i++)
-				{
-					logout.seekg(-position*100,ios_base::cur);
-				}
-		   } 
-	   }
-	   logout.read(reinterpret_cast<char *>(lp), sizeof(LogPart));
-	   li->txid = lp->txid;
-	   li->event_type = lp->event_type;
-	   li->committed_flag = lp->committed_flag;
-	   li->key.clear();
-	   li->key.append(lp->key);
-	   li->value.clear();
-	   li->value.append(lp->value);
-	   if(lp->flag != 0)
-	   {
-          while(lp->flag !=0)
-		 {
-			if(ios_base::cur > ios_base::beg)
+		   if(i !=0 ||offset !=-8)
+		      logout.seekg(offset-8,ios_base::beg);
+		  logout.read(reinterpret_cast<char *>(&offset), sizeof(OFF_P));
+	      logout.seekg(offset,ios_base::beg);
+		  cout<<logout.tellp()<<"  ";
+		  logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
+		  if(i>25)
+		  cout<<i<<"  "<< logout.tellp()<<"  ";
+			//if( > ios_base::beg)
 			{
 			//	logout.seekp(-position*(++temp),ios_base::cur);
-			    off_t mov = ++temp%100;
-			    logout.seekg(-position*mov,ios_base::end);
-		        if(temp>100)
-			    {
-				   off_t count = temp/100;
-		           for(int i=0;i<count;i++)
-				   {
-				     	logout.seekg(-position*100,ios_base::cur);
-				   }
-		        }
-		        
-				logout.read(reinterpret_cast<char *>(lp), sizeof(LogPart));
-				li->key.append(lp->key);
-				li->value.append(lp->value);
+			//	logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
 			}
-			else
-			{
-				break;
-			}
-		 }
         }
 	    outCircle->EnCICircle(li);
+		cout<<li->txid<<" "<<li->event_type <<" "<<li->key<<"  "<<li->value<<" "<<li->committed_flag<<endl;
+		li++;
+		
+	}
+	logout.close();
+	outCircle->CIQTraverse();//to test
+	delete []li;
+}
+//要查找的0表示找到，-1表示没找到
+int Loggerhandle::findItem(U64 find_txid)
+{
+	string logfile = loggerstate->get_last_file();
+	fstream logout;
+	logout.open(logfile,ios::binary|ios::in);
+	while(!logout)
+	{
+		cout<<"元文件打开失败"<<endl;
+		system("PAUSE");
+		logout.open(logfile,ios::binary|ios::in);//以读写方式打开文件
+	}
+	LogItem *li = new LogItem;
+	logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
+	if(li->txid>find_txid)
+	{
+		//查找上一个日志文件
+	}
+	else if (li->txid == find_txid)
+	{
+		delete li;
+		return 0;
+	}
+	else
+	{
+		//查找最后一条记录，确定在这个文件范围内
+		OFF_P offset = -8;
+		logout.seekg(offset,ios_base::end);
+		logout.read(reinterpret_cast<char *>(&offset), sizeof(OFF_P));
+	    logout.seekg(offset,ios_base::beg);
+	    logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
+		if(li->txid<find_txid)//要查找的日志项还没有写进文件
+		{
+			delete li;
+			return -1;
+		}
+		else if(li->txid == find_txid)
+		{
+			delete li;
+			return 0;
+		}
+		else
+		{
+			do
+			{
+			  logout.seekg(offset-8,ios_base::beg);
+		      logout.read(reinterpret_cast<char *>(&offset), sizeof(OFF_P));
+	          logout.seekg(offset,ios_base::beg);
+		     // cout<<logout.tellp()<<"  ";
+		      logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
+			}while(li->txid == find_txid);
+		//	cout<<li->txid<<" "<<li->event_type <<" "<<li->key<<"  "<<li->value<<" "<<li->committed_flag<<endl;
+			logout.close();
+		//	delete li;
+			return 0;
+		}
+	}
+	return -1;
+}
+void Loggerhandle::readfilewithcheck(OFF_P *checkpoint)
+{
+	string logfile = loggerstate->get_last_file();
+	fstream logout;
+	logout.open(logfile,ios::binary|ios::in);
+	while(!logout)
+	{
+		cout<<"元文件打开失败"<<endl;
+		system("PAUSE");
+		logout.open(logfile,ios::binary|ios::in);//以读写方式打开文件
+	}
+	LogItem *li = new LogItem[outCircle->size];
+	U64 count = countlogitem;
+	if(checkpoint[count-1]==0)
+		{
+			cout<<"checkpoint"<<endl;
+			system("PAUSE");
+           this->readfromfile();
+	}
+	for(U32 i=0; i<outCircle->size;i++)
+	{
+	   if(ios_base::cur > ios_base::beg)
+	   {
+		   //移动文件指针针向相应位置
+	      logout.seekg(checkpoint[--count],ios_base::beg);
+		  cout<<logout.tellp();
+		  logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
+			//if( > ios_base::beg)
+			{
+			//	logout.seekp(-position*(++temp),ios_base::cur);
+			//	logout.read(reinterpret_cast<char *>(li), sizeof(LogItem));
+			}
+        }
+	    outCircle->EnCICircle(li);
+		cout<<li->txid <<" "<<li->key<<"  "<<li->value<<endl;
 		li++;
 		cout<<"the "<< i+1 << "time"<<endl;
 	}
+	logout.close();
 	outCircle->CIQTraverse();//to test
-	delete lp;
 	delete []li;
 }
-
 void Loggerhandle::snapshot()
 {}
 void Loggerhandle::recover()

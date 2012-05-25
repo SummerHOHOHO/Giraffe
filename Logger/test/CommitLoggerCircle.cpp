@@ -29,7 +29,7 @@ void CommitLoggerCircle::CIQTraverse() const {
 	U32 length = (rear-front+size)%size;
 	cout << "从 环尾 到 环头: ";
 	while(length--){
-		cout<< base[(front + length)%size]->txid<<"  "<<base[(front + length)%size]->key<< "  "
+		cout<< base[(front + length)%size]->txid<<"  "<<base[(front + length)%size]->event_type<< "  "<<base[(front + length)%size]->key<< "  "
 			<< base[(front + length)%size]->value<<"  "<< base[(front + length)%size]->committed_flag<<"  "
 			<< endl;
 	}

@@ -46,18 +46,25 @@ void main()
 				log.setEventCommit(i);
 		}
 		log.terminate();
+	//	 log.readfilewithcheck(log.checkpoint);
+	//	  log.outCircle->CIQTraverse();
 	   }
 	   if(get=='2')
 	  { 
-		  log.readfromfile();
-		  log.outCircle->CIQTraverse();
+		 // log.readfilewithcheck(log.checkpoint);
+		log.readfromfile();
+		log.outCircle->CIQTraverse();
+		//  cout<<log.findItem(49950)<<endl;
+	//cout<<"要查找的0表示找到，-1表示没找到   "<<endl<< log.findItem(49966)<<endl;
+		  
+		//  cout<<log.findItem(49951)<<endl;
 	   }
 	}
 	if(i==MAX)
 		cout<<"测试数据全部执行"<<endl;
 	if(get=='3')
 	{
-		cout << "logpart size is "<<sizeof(LogPart)<<endl;
+	
 	fstream logout;
 	logout.open("20000.log");
      logout.seekg(0,ios_base::beg);
@@ -69,21 +76,9 @@ void main()
 	}
 	for(int i=0;i<200;i++)
 	{
-    // logout.seekg(0,ios_base::beg);
-	long pospoint = logout.tellp();
-	cout<<"pospoint"<<pospoint<<endl;
-//	logout.seekp(-(int)sizeof(LogPart),ios_base::cur);
-	LogPart *lp = new LogPart;
-//	log.out.write((char*)lp);
-	logout.read((char *)(lp), sizeof(LogPart));
-/*	logout.read((char *)&lp->txid,sizeof(U64));
-	logout.read((char *)&lp->event_type,sizeof(U32));
-	logout.read(lp->key,sizeof(char)*513);
-	logout.read(lp->value,sizeof(char)*1025);
-	logout.read((char *)&(lp->committed_flag),sizeof(bool));
-	logout.read((char *)&lp->flag,sizeof(U32));*/
-	cout<<lp->txid<<" "<<lp->key<<"  "<<lp->value<<" "<< lp->flag<<endl;
-	delete lp;
+	  std::streamoff pospoint = logout.tellg();
+	  cout<<"pospoint"<<pospoint<<endl;
+
 	}
 	}
 
