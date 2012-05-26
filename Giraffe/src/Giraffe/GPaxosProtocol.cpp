@@ -1,5 +1,7 @@
 #include "logic/GPaxosComm.h"
 #include "GPaxosProtocol.h"
+#include "Logger\LogInterface.h"
+#include "Logger\Loggerhandle.h"
 
 GPaxosProtocol::GPaxosProtocol()
 {

@@ -12,4 +12,6 @@ enum{
 	LOCK_STATUS_CONFLICTED,
 };
 
+
+
 #endif //__GIRAFFE_COMMON_H__

@@ -55,6 +55,9 @@
     <ClCompile Include="..\..\src\Giraffe\GServerConfig.cpp">
       <Filter>config</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Giraffe\GMembershipConfig.cpp">
+      <Filter>config</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Giraffe\logic\GMSPktHandler.h">
@@ -120,11 +123,12 @@
     <ClInclude Include="..\..\src\Giraffe\GPaxosUtils.h">
       <Filter>paxos</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\bin\Giraffe_conf\Giraffe_conf.ini">
+    <ClInclude Include="..\..\src\Giraffe\GApplicationEvent.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Giraffe\GMembershipConfig.h">
       <Filter>config</Filter>
-    </None>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="config">
@@ -141,6 +145,9 @@
     </Filter>
     <Filter Include="paxos">
       <UniqueIdentifier>{374f9f0d-fe36-4d81-808e-3bea08f07961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{0465b8a2-5981-4439-9aa6-5cfaf8d9f60e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

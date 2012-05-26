@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Giraffe\BerkelyFileSystem.h" />
+    <ClInclude Include="..\..\src\Giraffe\GApplicationEvent.h" />
+    <ClInclude Include="..\..\src\Giraffe\GMembershipConfig.h" />
     <ClInclude Include="..\..\src\Giraffe\GPaxosAcceptor.h" />
     <ClInclude Include="..\..\src\Giraffe\GPaxosFollower.h" />
     <ClInclude Include="..\..\src\Giraffe\GPaxosLeader.h" />
@@ -35,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Giraffe\BerkelyFileSystem.cpp" />
+    <ClCompile Include="..\..\src\Giraffe\GMembershipConfig.cpp" />
     <ClCompile Include="..\..\src\Giraffe\GPaxosAcceptor.cpp" />
     <ClCompile Include="..\..\src\Giraffe\GPaxosFollower.cpp" />
     <ClCompile Include="..\..\src\Giraffe\GPaxosLeader.cpp" />
@@ -52,9 +55,6 @@
     <ClCompile Include="..\..\src\Giraffe\logic\GPaxosPktHandler.cpp" />
     <ClCompile Include="..\..\src\Giraffe\GPaxosProtocol.cpp" />
     <ClCompile Include="..\..\src\Giraffe\SessionManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\bin\Giraffe_conf\Giraffe_conf.ini" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{381BC2C1-BBA0-4F53-97E5-C474AD8B6F1C}</ProjectGuid>
@@ -98,6 +98,7 @@
     <ReferencePath>$(Boost)\lib;$(ReferencePath)</ReferencePath>
     <LibraryPath>$(Boost)\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\bin\windows</OutDir>
+    <ExcludePath>..\..\include\boost;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;$(MSBuildToolsPath32);$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib;</ExcludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,7 +125,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;LOG_4_CPLUS;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
