@@ -1,19 +1,13 @@
 // test.cpp : 定义控制台应用程序的入口点。
 //
-#include "stdafx.h"
 #include "Loggerclass.h"
-#include <boost/threadpool.hpp>
-#include <boost/thread.hpp>
-#include <boost/bind.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition.hpp>
-#include <boost/thread/thread.hpp>
-#include <iostream>
 #include "LogItem.h"
 using namespace std;
 
 
-void main()
+
+
+void test_main()
 {
 	string key;
 	U64 i = 0;

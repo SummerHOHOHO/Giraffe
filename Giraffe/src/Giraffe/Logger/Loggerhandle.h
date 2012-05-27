@@ -1,6 +1,6 @@
 #pragma once//¸Ä³É#ifndef
 #include <fstream>
-#include "Base/GHeader.h"
+#include "GServerCommon.h"
 #include "PGRFPaxosEventPkt.h"
 #include "LogInterface.h"
 #include "LoggerItemQueue.h"

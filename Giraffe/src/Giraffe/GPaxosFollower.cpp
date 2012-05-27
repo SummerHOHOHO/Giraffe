@@ -4,6 +4,7 @@
 #include "logic/GPaxosComm.h"
 #include "GPaxosFollower.h"
 #include "Packets/Giraffe/paxos/PGRFPaxosPackets.h"
+#include "Logger/PaxosLogger.h"
 
 GPaxosFollower::GPaxosFollower(GPaxosState* paxos_state, GPaxosLeaderElection* election )
 {

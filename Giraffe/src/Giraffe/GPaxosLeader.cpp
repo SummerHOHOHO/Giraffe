@@ -1,5 +1,6 @@
 #include "GPaxosLeader.h"
 #include "Packets/Giraffe/paxos/PGRFPaxosPackets.h"
+#include "Logger/PaxosLogger.h"
 
 GPaxosLeader::GPaxosLeader(GPaxosState* paxos_state,GPaxosLeaderElection* election)
 {

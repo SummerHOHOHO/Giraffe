@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "LogThread.h"
 
 LogThread::LogThread( Loggerhandle* Lgi, U32 id)

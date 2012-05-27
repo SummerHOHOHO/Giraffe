@@ -1,7 +1,6 @@
 #include "logic/GPaxosComm.h"
 #include "GPaxosProtocol.h"
-#include "Logger\LogInterface.h"
-#include "Logger\Loggerhandle.h"
+#include "Logger/PaxosLogger.h"
 
 GPaxosProtocol::GPaxosProtocol()
 {
@@ -25,6 +24,7 @@ GPaxosProtocol::GPaxosProtocol()
 	m_pLeaderInstance = new GPaxosLeader(m_pPaxosState, m_pElectionInstance);
 	m_pFollowerInstance = new GPaxosFollower(m_pPaxosState, m_pElectionInstance);
 	m_bInitialized = true;
+	PaxosLogger::Initial();// initiate paxos logger layer
 }
 
 GPaxosProtocol::~GPaxosProtocol()

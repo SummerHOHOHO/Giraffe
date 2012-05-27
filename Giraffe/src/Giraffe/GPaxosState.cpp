@@ -63,6 +63,12 @@ bool GPaxosState::setLeaderOrFolowerState(unsigned state, U32 leaderId, PInetAdd
 	m_iLeaderId = leaderId;
 	m_oLeaderAddr = leader;
 	m_iMaxCommitTxid = txid;
+	
+	if (state == PAXOS_STATE::LEADING)
+	{
+		m_iCurrentTxid = TXID::encodeID(m_iLeaderEpoch, 0);
+		m_iTxCounter = 0;
+	}
 	return true;
 }
 
