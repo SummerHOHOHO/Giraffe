@@ -2,7 +2,7 @@
 #include "Base/GHeader.h"
 #include "BerkelyFileSystem.h"
 
-const char* ms_name_namespace_db = "../namespace.db";
+const char* ms_name_namespace_db = "namespace.db";
 
 BerkelyDBFileSystem::BerkelyDBFileSystem(const string base_dir, int verbose):m_base_dir(base_dir),m_verbose(verbose)
 {

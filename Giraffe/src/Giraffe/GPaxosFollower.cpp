@@ -93,26 +93,51 @@ void GPaxosFollower::startLeaderElection()
 
 void GPaxosFollower::handleProposeEvent(PaxosEvent& pe)
 {
-	cout << "get uab event epoch:" << pe.m_iEpoch << "zxid: " << pe.m_lTxid << "serer id: " << pe.m_sValue << endl;
-	if(pe.m_iEpoch < m_pPaxosState->m_iLeaderId || pe.m_lTxid < m_pPaxosState->m_iMaxCommitTxid)
+	cout<<endl<<endl;
+	TXID paxosDecodeTxid =TXID::decodeID(pe.m_lTxid);
+	if(pe.m_iEpoch!=paxosDecodeTxid.m_epoch || pe.m_iEpoch!= m_pPaxosState->m_iCurrentEpoch)
 	{
-		cout << "get error broadcast event from leader" << endl;
+		cout << "get invalid proposal event from leader" << endl;
 		//may handle exception event here
 		return;
 	}
-	//send ack to leader, and should write event to log and add event to commit_waiting queue
-	////
-	////
+	cout << "接收到一个有效的 Proposal 事件: txid=" << pe.m_lTxid<< endl;
+	/*if(pe.m_lTxid > m_pPaxosState->m_iCurrentTxid)
+	{
+	cout<<"设置m_iCurrentTxid为:"<<pe.m_lTxid<<endl;
+	m_pPaxosState->m_iCurrentTxid = pe.m_lTxid;
+	}*/
 
+	//send ack to leader, and should write event to log and add event to commit_waiting queue
+	//日志部分
+	//cout<<"m_pPaxosState->m_iCurrentTxid"<<m_pPaxosState->m_iCurrentTxid<<" m_pPaxosState->m_iTxCounter="<<m_pPaxosState->m_iTxCounter<<endl;
+	PaxosLogger::LogPaxosEvent(pe.m_lTxid,pe.m_iEventType,pe.m_sKey.c_str(), pe.m_sValue.c_str());
+	PPacketBase* pingPkt = (PGRFBroadcastEventPkt*)new PGRFBroadcastEventPkt(PAXOS_EVENT::UAB_ACK_EVENT, m_pPaxosState->m_iMyid, pe.m_iEpoch, pe.m_lTxid, "", "ack packet");
+	cout<<"发送ACK给leader"<<endl;
+	m_pComm->tcpSend(pe.m_oFrmAddr, pingPkt);
+	cout<<endl<<endl;
 }
 
 void GPaxosFollower::handleCommitEvent(PaxosEvent& pe)
 {
-	cout << "commit event epoch: " << pe.m_iEpoch << "zxid: " << pe.m_lTxid << "serer id: " << pe.m_sValue << endl;
-	m_pPaxosState->m_iCurrentTxid = pe.m_lTxid;
-	//validate the commit event 
+	cout<<endl<<endl;
+	//m_pPaxosState->m_iCurrentTxid = pe.m_lTxid;
+	//validate the commit event
 	//if not ok, handle exception
 	//else
 	//MaxCommitTxid +1; set log item true and write value into fs
+	TXID paxosDecodeTxid =TXID::decodeID(pe.m_lTxid);
+	if(pe.m_iEpoch != m_pPaxosState->m_iCurrentEpoch || paxosDecodeTxid.m_epoch != pe.m_iEpoch)
+	{
+		cout<<"the commit msg is invalid!!!"<<endl;
+		return;
+	}
+	cout << "接收到一个有效的 Commit 事件: txid=" << pe.m_lTxid<< endl;
+	if(pe.m_lTxid>m_pPaxosState->m_iMaxCommitTxid)
+	{
+		m_pPaxosState->m_iMaxCommitTxid=pe.m_lTxid;
+	}
+	PaxosLogger::CommitPaxosEvent(pe.m_lTxid);
+	cout<<endl<<endl;
 }
 

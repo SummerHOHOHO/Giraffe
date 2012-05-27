@@ -35,7 +35,7 @@ namespace PAXOS_EVENT
 		PING_FOLLOWER_EVENT,
 		
 		//broadcast event
-		UAB_PROPREPARE_EVENT,
+		UAB_PREPARE_EVENT,
 		UAB_PROPOSAL_EVENT,
 		UAB_ACK_EVENT,
 		UAB_COMMIT_EVENT,
@@ -139,13 +139,14 @@ public:
 		m_oFrmAddr	= frmAddr;
 	};
 
-	PaxosEvent(U32 type, U32 id, U32 epoch, U64 txid, PInetAddr frmAddr,string svalue)
+	PaxosEvent(U32 type, U32 id, U32 epoch, U64 txid, PInetAddr frmAddr,string skey, string svalue)
 	{
 		m_iEventType = type;
 		m_iMyid = id;
 		m_iEpoch = epoch;
 		m_lTxid = txid;
 		m_oFrmAddr = frmAddr;
+		m_sKey = skey;
 		m_sValue = svalue;
 	};
 
@@ -155,6 +156,7 @@ public:
 	U32 m_iEpoch;
 	U64 m_lTxid;
 
+	string m_sKey;
 	string m_sValue;
 	PInetAddr m_oLocAddr;
 

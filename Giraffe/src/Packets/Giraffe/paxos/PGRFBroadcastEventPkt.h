@@ -7,7 +7,7 @@ class PGRFBroadcastEventPkt : public PPacketBase
 {
 public:
 	PGRFBroadcastEventPkt(U8 subtype = PMyPktDef::GRF_BROADCAST_EVENT);
-	PGRFBroadcastEventPkt(U32 paxosType, U32 myid, U32 epoch, U64 txid, string svalue,U8 subtype = PMyPktDef::GRF_BROADCAST_EVENT);
+	PGRFBroadcastEventPkt(U32 paxosType, U32 myid, U32 epoch, U64 txid, string skey, string svalue,U8 subtype = PMyPktDef::GRF_BROADCAST_EVENT);
 
 	virtual String					toString() const ;
 
@@ -28,6 +28,7 @@ public:
 	U32 m_iID;
 	U32 m_iEpoch;
 	U64 m_lTxid;
+	string m_sKey;
 	string m_sValue;
 };
 

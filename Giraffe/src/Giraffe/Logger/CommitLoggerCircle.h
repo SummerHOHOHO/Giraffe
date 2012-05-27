@@ -6,7 +6,7 @@
 
 class CommitLoggerCircle{
 public:
-	CommitLoggerCircle(U32 init=355);
+	CommitLoggerCircle(U32 init=30);
 	bool CIQEmpty() const; //判断环是否为空
 	void CIQTraverse() const;//遍历环
 

@@ -25,7 +25,7 @@ private:
 	GPaxosState *m_pPaxosState;
 	GPaxosComm *m_pComm;
 	GPaxosLeaderElection *m_pElectionInstance;
-	map<U64, U32> m_oBroadcast;
+	map<U64, U32> m_oAckCounter;
 };
 
 #endif //_GIRAFFE_PAXOS_LEADER_H_

@@ -9,7 +9,7 @@ typedef struct ItemNode{
 
 class LoggerItemQueue{
 public:
-	LoggerItemQueue(U32 init=355);
+	LoggerItemQueue(U32 init=30);
 	bool LIQEmpty() const; //判断队列是否为空
 	void LIQTraverse() const;//遍历队列
 

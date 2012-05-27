@@ -143,6 +143,6 @@ void GPaxosPktHandler::handleBroadcastEvent( const PacketINFO * pktinfo)
 	pktinfo->packet->toString(temp);
 	const PGRFBroadcastEventPkt *pkt =  (const PGRFBroadcastEventPkt *)pktinfo->packet;
 
-	PaxosEvent pe = PaxosEvent(pkt->m_iPaxosType, pkt->m_iID ,pkt->m_iEpoch ,pkt->m_lTxid ,addr , pkt->m_sValue);
+	PaxosEvent pe = PaxosEvent(pkt->m_iPaxosType, pkt->m_iID ,pkt->m_iEpoch ,pkt->m_lTxid ,addr , pkt->m_sKey, pkt->m_sValue);
 	m_pPaxos->dispatchPaxosEvent(pe);
 }

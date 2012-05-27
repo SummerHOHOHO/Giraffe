@@ -35,6 +35,8 @@ GPaxosProtocol::~GPaxosProtocol()
 void GPaxosProtocol::checkState()
 {
 	S64 time = PUtils::localMilliSeconds();
+	string test_prepareString = "test_broadcast_procedure！";
+	PaxosEvent *test_preparePkt;
 	if(time - m_curTime >=  m_paxosSyncLimit)
 	{
 		m_curTime = time;
@@ -47,8 +49,27 @@ void GPaxosProtocol::checkState()
 				break;
 
 			case PAXOS_STATE::LEADING:
-				m_pLeaderInstance->renewFollowerMembership();
-				break;
+				{
+					m_pLeaderInstance->renewFollowerMembership();
+					//产生Prepare事件供给测试
+					//static U32 test_counter = 0;
+					//if(test_counter<=1)
+					//{
+					// U64 test_prepareTxid =TXID::encodeID(m_pPaxosState->m_iCurrentEpoch,test_counter);
+					
+					// cout<<"m_pPaxosState->m_iCurrentEpoch="<<m_pPaxosState->m_iCurrentEpoch<<" m_pPaxosState->m_iTxCounter="<<m_pPaxosState->m_iTxCounter<<" m_pPaxosState->m_iTxCounter="<<m_pPaxosState->m_iCurrentTxid<<endl;
+					// cout<<"m_pPaxosState->m_iCurrentEpoch="<<m_pPaxosState->m_iCurrentEpoch<<" test_counter="<<test_counter<<" test_prepareTxid="<<test_prepareTxid<<endl;
+					cout<<endl<<endl<<"*************************************************"<<endl;
+					cout<<"新一轮多播开始了！！！！！！！！！！"<<endl;
+					cout<<"产生一个Prepare事件:"<<"txid="<<m_pPaxosState->m_iCurrentTxid<<" epoch="<<m_pPaxosState->m_iCurrentEpoch<<" counter="<<m_pPaxosState->m_iTxCounter<<endl;
+					test_preparePkt= new PaxosEvent(PAXOS_EVENT::UAB_PREPARE_EVENT, m_pPaxosState->m_iMyid, m_pPaxosState->m_iCurrentEpoch, m_pPaxosState->m_iCurrentTxid, NULL, test_prepareString, test_prepareString);
+					m_pLeaderInstance->handleEvent(*test_preparePkt);
+					delete test_preparePkt;
+					cout<<endl<<endl;
+					// }
+					break;
+				}
+				
 
 			case PAXOS_STATE::FOLLOWING:
 				m_pFollowerInstance->pingToLeader();
@@ -84,7 +105,7 @@ void GPaxosProtocol::dispatchPaxosEvent(PaxosEvent e)
 		break;
 
 	case PAXOS_EVENT::PING_LEADER_EVENT:
-	case PAXOS_EVENT::UAB_PROPREPARE_EVENT:
+	case PAXOS_EVENT::UAB_PREPARE_EVENT:
 	case PAXOS_EVENT::UAB_ACK_EVENT:
 		m_pLeaderInstance->handleEvent(e);
 		break;
