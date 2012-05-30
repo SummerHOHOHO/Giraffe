@@ -4,6 +4,7 @@
 
 GServerConfig::GServerConfig(const std::string & config_file):PIniReader(config_file)
 {
+	this->addWantedProperty("log-level", PConfigValue::INT_TYPE );
 	this->addWantedProperty("paxos-tcp-port", PConfigValue::INT_TYPE );
 	this->addWantedProperty("paxos-udp-port", PConfigValue::INT_TYPE );
 	this->addWantedProperty("local-tcp-server-port", PConfigValue::INT_TYPE );

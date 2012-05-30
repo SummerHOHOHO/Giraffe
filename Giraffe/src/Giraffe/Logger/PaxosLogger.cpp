@@ -28,7 +28,7 @@ void  PaxosLogger::LogPaxosEvent(U64 tTxid,U32 event_tType,string kKey,string vV
 	cout << "key  " << kKey << "value  " << vValue << endl;
 }
 
-void  PaxosLogger::LogPaxosEvent(const PGRFPaxoesEventPkt & pgp)
+void  PaxosLogger::LogPaxosEvent(const PGRFLoggerEventPkt & pgp)
 {
 	m_pHandle->saveItem(pgp);
 }
@@ -38,3 +38,7 @@ void  PaxosLogger::CommitPaxosEvent(U64 txid)
 	m_pHandle->setEventCommit(txid);
 }
 
+void  PaxosLogger::PrintPaxosEvent()
+{
+	m_pHandle->readfromfile();
+}

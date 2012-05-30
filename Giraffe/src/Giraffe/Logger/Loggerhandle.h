@@ -1,7 +1,7 @@
 #pragma once//¸Ä³É#ifndef
 #include <fstream>
 #include "GServerCommon.h"
-#include "PGRFPaxosEventPkt.h"
+#include "PGRFLoggerEventPkt.h"
 #include "LogInterface.h"
 #include "LoggerItemQueue.h"
 #include "CommitLoggerCircle.h"
@@ -24,11 +24,11 @@ public:
 	Loggerhandle();
 	virtual ~Loggerhandle();
 	
-	virtual void saveItem(const PGRFPaxoesEventPkt &);
+	virtual void saveItem(const PGRFLoggerEventPkt &);
 	virtual void saveItem(U64 tTxid,U32 event_tType,string kKey,string vValue, B8 cCommitted_flag);
 	virtual void writetofile(U32);
  	virtual void init();
-	virtual PGRFPaxoesEventPkt getItem(U64 txid);
+	virtual PGRFLoggerEventPkt getItem(U64 txid);
 
 	virtual void snapshot();
 	virtual void recover();
@@ -43,7 +43,7 @@ public:
 	void readfilewithcheck(OFF_P *checkpoint);
 
 private:
-	LogItem * creatLogItem(const PGRFPaxoesEventPkt &);
+	LogItem * creatLogItem(const PGRFLoggerEventPkt &);
 	LogItem * creatLogItem(U64 tTxid,U32 event_tType,string kKey,string vValue, B8 cCommitted_flag);
 public:
 	LoggerItemQueue *myQueue;

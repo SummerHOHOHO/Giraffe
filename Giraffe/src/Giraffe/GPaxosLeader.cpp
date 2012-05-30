@@ -88,7 +88,7 @@ void GPaxosLeader::handlePrepareEvent(PaxosEvent &pe)
 	//log部分，产生一个日志，并置commitflag为0
 	//PPacketBase* pingPkt = (PGRFPaxosEventPkt*)new PGRFPaxosEventPkt(PAXOS_EVENT::PING_LEADER_EVENT, m_pPaxosState->m_iMyid, m_pPaxosState->m_iCurrentEpoch, m_pPaxosState->m_iCurrentTxid, m_pPaxosState->m_oLocalPaxosAddr);
 	//从membership中获得节点列表，给所有存在的节点依次发送proposal包
-	PaxosLogger::LogPaxosEvent(pe.m_lTxid, pe.m_iEventType, pe.m_sKey.c_str(), pe.m_sValue.c_str());
+	PaxosLogger::LogPaxosEvent(pe.m_lTxid, pe.m_iEventType, pe.m_sKey, pe.m_sValue);
 	for(cIterator= m_pPaxosState->m_oReplicaTable.begin();cIterator!= m_pPaxosState->m_oReplicaTable.end();cIterator++)
 	{
 		if(cIterator->getPort()!=0 && !(cIterator->getAddr()==m_pPaxosState->m_oLeaderAddr.getAddr()&&cIterator->getPort()==m_pPaxosState->m_oLeaderAddr.getPort()))

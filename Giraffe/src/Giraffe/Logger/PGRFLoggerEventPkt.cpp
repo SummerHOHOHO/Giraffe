@@ -1,11 +1,11 @@
-#include "PGRFPaxosEventPkt.h"
+#include "PGRFLoggerEventPkt.h"
 
 
-PGRFPaxoesEventPkt::PGRFPaxoesEventPkt()
+PGRFLoggerEventPkt::PGRFLoggerEventPkt()
 {
 
 }
-PGRFPaxoesEventPkt::PGRFPaxoesEventPkt(U64 tTxid,U32 pPaxoesType,string kKey, string vValue, B8 cCommitted_flag)
+PGRFLoggerEventPkt::PGRFLoggerEventPkt(U64 tTxid,U32 pPaxoesType,string kKey, string vValue, B8 cCommitted_flag)
 {
 	txid = tTxid;
 	paxoesType = pPaxoesType;
@@ -14,7 +14,7 @@ PGRFPaxoesEventPkt::PGRFPaxoesEventPkt(U64 tTxid,U32 pPaxoesType,string kKey, st
 	committed_flag = cCommitted_flag;
 }
 
-string PGRFPaxoesEventPkt::toString()const
+string PGRFLoggerEventPkt::toString()const
 {
 	std::ostringstream strstr;
 	strstr<< "txid: "<< txid;
@@ -25,6 +25,6 @@ string PGRFPaxoesEventPkt::toString()const
 	return strstr.str();
 }
 
-PGRFPaxoesEventPkt::~PGRFPaxoesEventPkt(void)
+PGRFLoggerEventPkt::~PGRFLoggerEventPkt(void)
 {
 }

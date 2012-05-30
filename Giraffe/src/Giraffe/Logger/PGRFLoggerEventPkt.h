@@ -1,16 +1,16 @@
 #pragma once
 #include "Base/GHeader.h"
 
-class PGRFPaxoesEventPkt
+class PGRFLoggerEventPkt
 {
 	public:
-		PGRFPaxoesEventPkt();
-		PGRFPaxoesEventPkt(U64 txid,U32 paxoesType,string key, string value, B8 committed_flag);
+		PGRFLoggerEventPkt();
+		PGRFLoggerEventPkt(U64 txid,U32 paxoesType,string key, string value, B8 committed_flag);
 
            virtual string					toString() const ;
 
     public:
-		virtual ~PGRFPaxoesEventPkt(void);
+		virtual ~PGRFLoggerEventPkt(void);
 public:
 	U64 txid;
 	U32 paxoesType;

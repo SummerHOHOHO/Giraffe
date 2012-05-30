@@ -35,7 +35,8 @@ GPaxosProtocol::~GPaxosProtocol()
 void GPaxosProtocol::checkState()
 {
 	S64 time = PUtils::localMilliSeconds();
-	string test_prepareString = "test_broadcast_procedure£¡";
+	string test_prepareString = "test_broadcast_procedure£¡test_broadcast_procedure£¡test_broadcast_procedure£¡";
+	static U32 counter = 0;
 	PaxosEvent *test_preparePkt;
 	if(time - m_curTime >=  m_paxosSyncLimit)
 	{
@@ -66,6 +67,15 @@ void GPaxosProtocol::checkState()
 					m_pLeaderInstance->handleEvent(*test_preparePkt);
 					delete test_preparePkt;
 					cout<<endl<<endl;
+					counter ++;
+
+					if (counter > 2*FILESIZE)
+					{
+						PaxosLogger::PrintPaxosEvent();
+						system("PAUSE");
+						counter = 0;
+					}
+					
 					// }
 					break;
 				}

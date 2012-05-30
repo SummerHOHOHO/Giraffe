@@ -1,6 +1,6 @@
 #ifndef LOGGER_CLASS_H__
 #define LOGGER_CLASS_H__
-#include "PGRFPaxosEventPkt.h"
+#include "PGRFLoggerEventPkt.h"
 #include "LogInterface.h"
 #include "LoggerItemQueue.h"
 #include "CommitLoggerCircle.h"

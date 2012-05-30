@@ -111,7 +111,8 @@ void GPaxosFollower::handleProposeEvent(PaxosEvent& pe)
 	//send ack to leader, and should write event to log and add event to commit_waiting queue
 	//日志部分
 	//cout<<"m_pPaxosState->m_iCurrentTxid"<<m_pPaxosState->m_iCurrentTxid<<" m_pPaxosState->m_iTxCounter="<<m_pPaxosState->m_iTxCounter<<endl;
-	PaxosLogger::LogPaxosEvent(pe.m_lTxid,pe.m_iEventType,pe.m_sKey.c_str(), pe.m_sValue.c_str());
+	PaxosLogger::LogPaxosEvent(pe.m_lTxid,pe.m_iEventType,pe.m_sKey, pe.m_sValue);
+	LOG_ERROR("handleProposeEvent"," write paxos event"<< pe.m_lTxid);
 	PPacketBase* pingPkt = (PGRFBroadcastEventPkt*)new PGRFBroadcastEventPkt(PAXOS_EVENT::UAB_ACK_EVENT, m_pPaxosState->m_iMyid, pe.m_iEpoch, pe.m_lTxid, "", "ack packet");
 	cout<<"发送ACK给leader"<<endl;
 	m_pComm->tcpSend(pe.m_oFrmAddr, pingPkt);
@@ -138,6 +139,7 @@ void GPaxosFollower::handleCommitEvent(PaxosEvent& pe)
 		m_pPaxosState->m_iMaxCommitTxid=pe.m_lTxid;
 	}
 	PaxosLogger::CommitPaxosEvent(pe.m_lTxid);
+	LOG_ERROR("handleCommitEvent"," commit paxos event"<< pe.m_lTxid);
 	cout<<endl<<endl;
 }
 

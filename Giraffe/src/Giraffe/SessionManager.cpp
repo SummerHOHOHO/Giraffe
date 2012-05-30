@@ -19,7 +19,7 @@ SessionManager::SessionManager(GPaxosProtocol *p)
 	m_expired_session_counter = 0;
 	m_pComm = new GMSComm(this);
 
-	assert(m_pPaxos != NULL);
+	//assert(m_pPaxos != NULL);
 	m_pPaxos = p;
 
 	m_db_run_time = 0;
@@ -42,7 +42,7 @@ void SessionManager::check_state()
 	S64 time = PUtils::localMilliSeconds();
 	if(time - m_curTime >=  m_lease_interval)
 	{
-		cout << "timely renew" << endl;
+		//cout << "timely renew" << endl;
 		m_curTime = time;
 		this->timely_renew();
 	}	
@@ -465,7 +465,7 @@ void SessionManager::notify_watcher_event(U32 event_type, string node_name)
 		handleptr = it->second;
 		getSession(handleptr->getSessonID(), sessionptr);
 		PGRFWatcherEventPkt *pkt = new PGRFWatcherEventPkt(event_type,node_name);
-		cout<< "watcher broadcast" << event_type << "  node name:" << node_name << endl;
+		//cout<< "watcher broadcast" << event_type << "  node name:" << node_name << endl;
 		m_pComm->tcpSend(sessionptr->getAddr(), pkt);
 		//addrmap.push_back(sessionptr->getAddr());
 	}
@@ -480,7 +480,7 @@ void SessionManager::notify_watcher_event(U32 event_type, string node_name)
 
 void SessionManager::timely_renew()
 {
-	cout << "timely renew!! expired session counter:" << m_expired_session_counter << "db run time " << m_db_run_time << "write func run time " << func_run_time << endl;
+	//cout << "timely renew!! expired session counter:" << m_expired_session_counter << "db run time " << m_db_run_time << "write func run time " << func_run_time << endl;
 	SessionDataPtr session;
 	NodeDataPtr nodeptr;
 	HandleDataPtr handleptr;

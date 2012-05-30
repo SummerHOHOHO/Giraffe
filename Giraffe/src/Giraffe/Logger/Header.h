@@ -21,7 +21,7 @@ typedef bool				B8;
 #define CREATE              0
 #define WRITE               1
 #define DEL                 2
-#define FILESIZE            1000
+#define FILESIZE            30
 
 
 

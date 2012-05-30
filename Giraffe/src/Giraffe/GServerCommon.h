@@ -5,6 +5,6 @@ typedef std::streamoff      OFF_P;
 #define CREATE              0
 #define WRITE               1
 #define DEL                 2
-#define FILESIZE            1000
+#define FILESIZE            10
 
 #endif //__GIRAFFE_SERVER_COMMON_H__

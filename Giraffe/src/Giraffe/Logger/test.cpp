@@ -31,7 +31,7 @@ void test_main()
 			content += key;
 			key += "MYFILE";
 			content += "CONTENT";
-			PGRFPaxoesEventPkt mypkt_i = PGRFPaxoesEventPkt(i,WRITE,key,content,false);
+			PGRFLoggerEventPkt mypkt_i = PGRFLoggerEventPkt(i,WRITE,key,content,false);
 			key.clear();
 			content.clear();
 			content += "MY";
